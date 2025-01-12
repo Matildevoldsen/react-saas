@@ -2,8 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe();
+import SubscriptionForm from "@/Components/SubscriptionForm.jsx";
+const stripePromise = loadStripe('pk_test_51NXOxbDSXqjvgR37a4dDBtN5tKXdAgXNPbeFS6MyldScYeTpYp0qDE3IXbC2dkVBX6YINDoyUGBmet7YtYkV54Oa00oO2Bl6QD');
 
 export default function SubscriptionModal({ isOpen, subscription, plans, onClose }) {
     return (
@@ -29,6 +29,7 @@ export default function SubscriptionModal({ isOpen, subscription, plans, onClose
                                         You need to subscribe to access this feature.
                                     </p>
                                     <Elements stripe={stripePromise}>
+                                        <SubscriptionForm plans={plans} subscription={subscription} />
                                     </Elements>
                                 </div>
                             </Dialog.Panel>

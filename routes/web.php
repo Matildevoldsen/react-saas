@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriptionPayController;
+use App\Http\Controllers\SubscriptionShowController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +26,12 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/pay', PayController::class)->name('pay');
+    Route::get('/account/subscriptions', SubscriptionShowController::class)->name('account.subscription');
+    Route::get('/premium', function () {
+        return Inertia::render('Premium');
+    })->name('premium')->middleware('subscribedTo:basic,premium,basic annual,premium annual');
+    Route::post('/subscription/pay/{id}', SubscriptionPayController::class)->name('subscribe');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
